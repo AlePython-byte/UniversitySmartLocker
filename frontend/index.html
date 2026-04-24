@@ -102,16 +102,39 @@
             background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
         }
 
-        .summary-badge.success {
+        .summary-badge.available,
+        .state-pill.available {
             background: linear-gradient(135deg, #10b981, var(--success));
         }
 
-        .summary-badge.warning {
+        .summary-badge.reserved,
+        .state-pill.reserved {
+            background: linear-gradient(135deg, #3b82f6, var(--primary-blue));
+        }
+
+        .summary-badge.stored,
+        .state-pill.stored {
+            background: linear-gradient(135deg, #8b5cf6, var(--primary-purple));
+        }
+
+        .summary-badge.ready,
+        .state-pill.ready {
+            background: linear-gradient(135deg, #1d4ed8, #2563eb);
+        }
+
+        .summary-badge.overdue,
+        .state-pill.overdue {
             background: linear-gradient(135deg, #f59e0b, var(--warning));
         }
 
-        .summary-badge.danger {
-            background: linear-gradient(135deg, #ef4444, var(--danger));
+        .summary-badge.maintenance,
+        .state-pill.maintenance {
+            background: linear-gradient(135deg, #ef4444, #7f1d1d);
+        }
+
+        .summary-badge.offline,
+        .state-pill.offline {
+            background: linear-gradient(135deg, #64748b, #334155);
         }
 
         .tab-navigation {
@@ -216,6 +239,67 @@
         .flow-boxes {
             display: grid;
             gap: 14px;
+        }
+
+        .state-path {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            padding: 18px;
+            border-radius: 18px;
+            background: var(--card-alt);
+            border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+
+        .state-step {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: #ffffff;
+            border: 1px solid var(--border-soft);
+            color: var(--text-muted);
+            font-weight: 700;
+            transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+        }
+
+        .state-step.is-active {
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 14px 24px rgba(37, 99, 235, 0.18);
+            transform: translateY(-1px);
+        }
+
+        .state-step.available.is-active {
+            background: linear-gradient(135deg, #10b981, var(--success));
+        }
+
+        .state-step.reserved.is-active {
+            background: linear-gradient(135deg, #3b82f6, var(--primary-blue));
+        }
+
+        .state-step.stored.is-active {
+            background: linear-gradient(135deg, #8b5cf6, var(--primary-purple));
+        }
+
+        .state-step.ready.is-active {
+            background: linear-gradient(135deg, #1d4ed8, #2563eb);
+        }
+
+        .state-step.overdue.is-active {
+            background: linear-gradient(135deg, #f59e0b, var(--warning));
+        }
+
+        .state-step.maintenance.is-active {
+            background: linear-gradient(135deg, #ef4444, #7f1d1d);
+        }
+
+        .state-arrow {
+            color: var(--text-muted);
+            font-weight: 800;
         }
 
         .flow-box {
@@ -401,6 +485,16 @@
             word-break: break-word;
         }
 
+        .state-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 14px;
+            border-radius: 999px;
+            color: #ffffff;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
+        }
+
         .message-panel {
             display: grid;
             gap: 8px;
@@ -450,6 +544,41 @@
             line-height: 1.55;
         }
 
+        .history-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .history-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 9px;
+            border-radius: 999px;
+            font-size: 0.76rem;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+            color: #ffffff;
+        }
+
+        .history-tag.success {
+            background: linear-gradient(135deg, #10b981, var(--success));
+        }
+
+        .history-tag.error {
+            background: linear-gradient(135deg, #ef4444, var(--danger));
+        }
+
+        .history-tag.query {
+            background: linear-gradient(135deg, #3b82f6, var(--primary-blue));
+        }
+
+        .history-tag.transition {
+            background: linear-gradient(135deg, #8b5cf6, var(--primary-purple));
+        }
+
         .empty-history {
             padding: 20px;
             border-radius: 16px;
@@ -459,28 +588,83 @@
             border: 1px dashed rgba(37, 99, 235, 0.18);
         }
 
-        .context-blocks {
+        .pattern-grid {
             display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 18px;
         }
 
-        .context-block {
+        .pattern-card {
             padding: 20px;
-            border-radius: 18px;
-            background: var(--card-alt);
-            border: 1px solid rgba(37, 99, 235, 0.08);
+            border-radius: 20px;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+            border: 1px solid rgba(37, 99, 235, 0.1);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.06);
+            display: grid;
+            gap: 14px;
+            align-content: start;
         }
 
-        .context-block strong {
-            display: block;
-            margin-bottom: 10px;
-            font-size: 1rem;
+        .pattern-role {
+            display: inline-flex;
+            align-items: center;
+            width: fit-content;
+            padding: 7px 11px;
+            border-radius: 999px;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary-blue-dark);
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
         }
 
-        .context-block p {
+        .pattern-card h3 {
+            margin: 0;
+            font-size: 1.05rem;
+        }
+
+        .pattern-card p {
             margin: 0;
             color: var(--text-muted);
-            line-height: 1.7;
+            line-height: 1.65;
+        }
+
+        .pattern-code {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 10px;
+            border-radius: 12px;
+            background: #edf4ff;
+            color: #1e40af;
+            font-weight: 700;
+            font-size: 0.92rem;
+            border: 1px solid rgba(37, 99, 235, 0.12);
+        }
+
+        .pattern-chip-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .pattern-chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 7px 11px;
+            border-radius: 999px;
+            background: #f3f4ff;
+            border: 1px solid rgba(109, 93, 252, 0.14);
+            color: #5b4de1;
+            font-size: 0.86rem;
+            font-weight: 700;
+        }
+
+        button:disabled {
+            opacity: 0.38;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
         @media (max-width: 1100px) {
@@ -488,6 +672,10 @@
             .operation-grid,
             .status-grid {
                 grid-template-columns: 1fr 1fr;
+            }
+
+            .pattern-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -563,7 +751,6 @@
         <button type="button" class="tab-button active" data-tab="homeTab">Inicio</button>
         <button type="button" class="tab-button" data-tab="operationsTab">Operaciones</button>
         <button type="button" class="tab-button" data-tab="statusTab">Estado e historial</button>
-        <button type="button" class="tab-button" data-tab="contextTab">Contexto del caso</button>
     </nav>
 
     <section class="tab-content">
@@ -589,8 +776,26 @@
                         </div>
                         <div class="card-body">
                             <div class="flow-boxes">
-                                <div class="flow-box">Disponible → Reservado → Paquete guardado → Listo para recoger → Disponible</div>
-                                <div class="flow-box">Listo para recoger → Vencido → Mantenimiento → Disponible</div>
+                                <div class="state-path" id="mainFlow">
+                                    <span class="state-step available" data-state="Disponible">Disponible</span>
+                                    <span class="state-arrow">→</span>
+                                    <span class="state-step reserved" data-state="Reservado">Reservado</span>
+                                    <span class="state-arrow">→</span>
+                                    <span class="state-step stored" data-state="Paquete almacenado">Paquete guardado</span>
+                                    <span class="state-arrow">→</span>
+                                    <span class="state-step ready" data-state="Listo para recoger">Listo para recoger</span>
+                                    <span class="state-arrow">→</span>
+                                    <span class="state-step available" data-state="Disponible">Disponible</span>
+                                </div>
+                                <div class="state-path" id="secondaryFlow">
+                                    <span class="state-step ready" data-state="Listo para recoger">Listo para recoger</span>
+                                    <span class="state-arrow">→</span>
+                                    <span class="state-step overdue" data-state="Vencido">Vencido</span>
+                                    <span class="state-arrow">→</span>
+                                    <span class="state-step maintenance" data-state="Mantenimiento">Mantenimiento</span>
+                                    <span class="state-arrow">→</span>
+                                    <span class="state-step available" data-state="Disponible">Disponible</span>
+                                </div>
                             </div>
                         </div>
                     </article>
@@ -604,7 +809,7 @@
                             <div class="mini-status-grid">
                                 <div class="mini-status">
                                     <span>Estado</span>
-                                    <strong id="homeStateText">Cargando...</strong>
+                                    <strong id="homeStateText" class="state-pill">Cargando...</strong>
                                 </div>
                                 <div class="mini-status">
                                     <span>Estudiante</span>
@@ -622,6 +827,40 @@
                         </div>
                     </article>
                 </div>
+
+                <article class="card">
+                    <div class="card-header">
+                        <h2>Aplicación del Patrón State</h2>
+                        <p>Relación entre las piezas principales del proyecto y los roles del patrón.</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="pattern-grid">
+                            <div class="pattern-card">
+                                <span class="pattern-role">Context</span>
+                                <h3><span class="pattern-code">SmartLocker</span></h3>
+                                <p>Representa el contexto del patrón porque conserva el estado actual del casillero y delega cada operación al estado activo.</p>
+                            </div>
+                            <div class="pattern-card">
+                                <span class="pattern-role">State</span>
+                                <h3><span class="pattern-code">LockerState</span></h3>
+                                <p>Define la interfaz común del patrón State para que cada estado implemente las operaciones permitidas y las restricciones.</p>
+                                <div class="pattern-chip-list">
+                                    <span class="pattern-chip">AvailableState</span>
+                                    <span class="pattern-chip">ReservedState</span>
+                                    <span class="pattern-chip">PackageStoredState</span>
+                                    <span class="pattern-chip">ReadyForPickupState</span>
+                                    <span class="pattern-chip">OverdueState</span>
+                                    <span class="pattern-chip">MaintenanceState</span>
+                                </div>
+                            </div>
+                            <div class="pattern-card">
+                                <span class="pattern-role">Interfaz y conexión</span>
+                                <h3><span class="pattern-code">WebServer</span> + <span class="pattern-code">index.html</span></h3>
+                                <p><span class="pattern-code">WebServer</span> conecta la interfaz con la lógica Java y <span class="pattern-code">index.html</span> permite probar visualmente las transiciones del sistema.</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
             </div>
         </div>
 
@@ -641,7 +880,7 @@
                             <span class="input-emphasis">Dato requerido para reservar</span>
                             <p class="support-text">Usa esta acción cuando el casillero esté disponible.</p>
                             <div class="button-row">
-                                <button type="button" onclick="reserveLocker()">Reservar</button>
+                                <button id="reserveButton" type="button" onclick="reserveLocker()">Reservar</button>
                             </div>
                         </div>
                     </article>
@@ -659,7 +898,7 @@
                             <span class="input-emphasis">Dato requerido para almacenar</span>
                             <p class="support-text">Esta acción requiere que el casillero ya esté reservado.</p>
                             <div class="button-row">
-                                <button type="button" onclick="storePackage()">Guardar paquete</button>
+                                <button id="storeButton" type="button" onclick="storePackage()">Guardar paquete</button>
                             </div>
                         </div>
                     </article>
@@ -677,7 +916,7 @@
                             <span class="input-emphasis">Dato requerido para recoger</span>
                             <p class="support-text">El código debe coincidir con el generado por el sistema.</p>
                             <div class="button-row">
-                                <button type="button" onclick="pickupPackage()">Recoger</button>
+                                <button id="pickupButton" type="button" onclick="pickupPackage()">Recoger</button>
                             </div>
                         </div>
                     </article>
@@ -689,11 +928,11 @@
                         </div>
                         <div class="card-body">
                             <div class="action-group">
-                                <button type="button" class="secondary" onclick="fetchStatus()">Ver estado</button>
-                                <button type="button" onclick="markReady()">Marcar listo para recoger</button>
-                                <button type="button" class="warning" onclick="markOverdue()">Marcar como vencido</button>
-                                <button type="button" class="danger" onclick="startMaintenance()">Iniciar mantenimiento</button>
-                                <button type="button" class="secondary" onclick="finishMaintenance()">Finalizar mantenimiento</button>
+                                <button id="statusButton" type="button" class="secondary" onclick="fetchStatus()">Ver estado</button>
+                                <button id="readyButton" type="button" onclick="markReady()">Marcar listo para recoger</button>
+                                <button id="overdueButton" type="button" class="warning" onclick="markOverdue()">Marcar como vencido</button>
+                                <button id="startMaintenanceButton" type="button" class="danger" onclick="startMaintenance()">Iniciar mantenimiento</button>
+                                <button id="finishMaintenanceButton" type="button" class="secondary" onclick="finishMaintenance()">Finalizar mantenimiento</button>
                             </div>
                         </div>
                     </article>
@@ -712,7 +951,7 @@
                         <div class="status-grid">
                             <div class="status-tile">
                                 <span class="status-label">Estado actual</span>
-                                <div id="stateValue" class="status-value">Cargando...</div>
+                                <div id="stateValue" class="state-pill">Cargando...</div>
                             </div>
                             <div class="status-tile">
                                 <span class="status-label">Estudiante</span>
@@ -748,38 +987,6 @@
                 </article>
             </div>
         </div>
-
-        <div id="contextTab" class="tab-panel">
-            <div class="tab-layout">
-                <article class="card">
-                    <div class="card-header">
-                        <h2>Contexto del caso</h2>
-                        <p>Explicación académica del uso del Patrón State en este proyecto.</p>
-                    </div>
-                    <div class="card-body">
-                        <div class="context-blocks">
-                            <div class="context-block">
-                                <strong>Descripción del sistema</strong>
-                                <p>Este sistema representa un casillero inteligente universitario para la entrega y recogida segura de paquetes. El casillero cambia su comportamiento según su estado actual: disponible, reservado, con paquete guardado, listo para recoger, vencido o en mantenimiento. Por eso se aplica el Patrón State, ya que cada estado define qué acciones están permitidas y cuáles no.</p>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="card">
-                    <div class="card-header">
-                        <h2>Flujo del casillero</h2>
-                        <p>Transiciones principales que modela el backend Java.</p>
-                    </div>
-                    <div class="card-body">
-                        <div class="flow-boxes">
-                            <div class="flow-box">Disponible → Reservado → Paquete guardado → Listo para recoger → Disponible</div>
-                            <div class="flow-box">Listo para recoger → Vencido → Mantenimiento → Disponible</div>
-                        </div>
-                    </div>
-                </article>
-            </div>
-        </div>
     </section>
 </div>
 
@@ -803,6 +1010,15 @@
     const studentNameInput = document.getElementById('studentName');
     const packageCodeInput = document.getElementById('packageCode');
     const securityCodeInput = document.getElementById('securityCode');
+    const reserveButton = document.getElementById('reserveButton');
+    const storeButton = document.getElementById('storeButton');
+    const pickupButton = document.getElementById('pickupButton');
+    const statusButton = document.getElementById('statusButton');
+    const readyButton = document.getElementById('readyButton');
+    const overdueButton = document.getElementById('overdueButton');
+    const startMaintenanceButton = document.getElementById('startMaintenanceButton');
+    const finishMaintenanceButton = document.getElementById('finishMaintenanceButton');
+    const flowSteps = document.querySelectorAll('.state-step');
 
     tabButtons.forEach((button) => {
         button.addEventListener('click', () => {
@@ -910,33 +1126,68 @@
         headerStateValue.className = 'summary-badge ' + stateTone;
 
         homeStateText.textContent = stateText;
+        homeStateText.className = 'state-pill ' + stateTone;
         homeStudentText.textContent = data.studentName || 'Sin asignar';
         homePackageText.textContent = data.packageCode || 'Sin paquete';
         homeMessageText.textContent = data.lastMessage || data.message || 'Sin mensajes';
 
         stateValue.textContent = stateText;
+        stateValue.className = 'state-pill ' + stateTone;
         studentValue.textContent = data.studentName || 'Sin asignar';
         packageValue.textContent = data.packageCode || 'Sin paquete';
         securityValue.textContent = data.securityCode || 'No disponible';
         messageValue.textContent = data.lastMessage || data.message || 'Sin mensajes';
+        updateFlowState(stateText);
+        updateActionAvailability(stateText);
     }
 
     function resolveStateTone(stateText) {
-        if (stateText === 'Vencido') {
-            return 'warning';
-        }
-        if (stateText === 'Mantenimiento' || stateText === 'Sin conexión') {
-            return 'danger';
-        }
-        if (
-            stateText === 'Disponible' ||
-            stateText === 'Reservado' ||
-            stateText === 'Paquete almacenado' ||
-            stateText === 'Listo para recoger'
-        ) {
-            return 'success';
-        }
-        return '';
+        const toneMap = {
+            'Disponible': 'available',
+            'Reservado': 'reserved',
+            'Paquete almacenado': 'stored',
+            'Listo para recoger': 'ready',
+            'Vencido': 'overdue',
+            'Mantenimiento': 'maintenance',
+            'Sin conexión': 'offline'
+        };
+        return toneMap[stateText] || '';
+    }
+
+    function updateFlowState(stateText) {
+        flowSteps.forEach((step) => {
+            step.classList.toggle('is-active', step.dataset.state === stateText);
+        });
+    }
+
+    function updateActionAvailability(stateText) {
+        const enabledButtons = {
+            'Disponible': [reserveButton, statusButton, startMaintenanceButton],
+            'Reservado': [storeButton, statusButton],
+            'Paquete almacenado': [readyButton, statusButton],
+            'Listo para recoger': [pickupButton, overdueButton, statusButton],
+            'Vencido': [startMaintenanceButton, statusButton],
+            'Mantenimiento': [finishMaintenanceButton, statusButton]
+        };
+
+        const allButtons = [
+            reserveButton,
+            storeButton,
+            pickupButton,
+            statusButton,
+            readyButton,
+            overdueButton,
+            startMaintenanceButton,
+            finishMaintenanceButton
+        ];
+
+        allButtons.forEach((button) => {
+            button.disabled = true;
+        });
+
+        (enabledButtons[stateText] || [statusButton]).forEach((button) => {
+            button.disabled = false;
+        });
     }
 
     function showClientMessage(message, success) {
@@ -961,6 +1212,7 @@
 
         const item = document.createElement('div');
         item.className = data.success ? 'history-item' : 'history-item error';
+        const tag = resolveHistoryTag(data);
 
         const time = new Date().toLocaleTimeString('es-CO', {
             hour: '2-digit',
@@ -969,11 +1221,38 @@
         });
 
         item.innerHTML = `
-            <small>${time} | Estado: ${data.state || 'Sin información'}</small>
+            <div class="history-meta">
+                <span class="history-tag ${tag.className}">${tag.label}</span>
+                <small>${time} | Estado: ${data.state || 'Sin información'}</small>
+            </div>
             <strong>${data.message || 'Operación procesada.'}</strong>
         `;
 
         historyList.prepend(item);
+    }
+
+    function resolveHistoryTag(data) {
+        const message = data.message || '';
+
+        if (!data.success) {
+            return { label: 'Error', className: 'error' };
+        }
+
+        if (message.includes('Estado consultado')) {
+            return { label: 'Consulta', className: 'query' };
+        }
+
+        if (
+            message.includes('quedó') ||
+            message.includes('volvió') ||
+            message.includes('inició mantenimiento') ||
+            message.includes('Mantenimiento finalizado') ||
+            message.includes('venció')
+        ) {
+            return { label: 'Transición', className: 'transition' };
+        }
+
+        return { label: 'Éxito', className: 'success' };
     }
 
     fetchStatus();
