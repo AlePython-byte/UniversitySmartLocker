@@ -1019,6 +1019,7 @@
     const startMaintenanceButton = document.getElementById('startMaintenanceButton');
     const finishMaintenanceButton = document.getElementById('finishMaintenanceButton');
     const flowSteps = document.querySelectorAll('.state-step');
+    let currentAllowedActions = ['getStatus'];
 
     tabButtons.forEach((button) => {
         button.addEventListener('click', () => {
@@ -1111,7 +1112,8 @@
                 studentName: studentValue.textContent === 'Sin asignar' ? null : studentValue.textContent,
                 packageCode: packageValue.textContent === 'Sin paquete' ? null : packageValue.textContent,
                 securityCode: securityValue.textContent === 'No disponible' ? null : securityValue.textContent,
-                lastMessage: 'No fue posible conectar con el servidor.'
+                lastMessage: 'No fue posible conectar con el servidor.',
+                allowedActions: currentAllowedActions
             };
             updateStatusCard(fallback);
             addHistoryEntry(fallback);
@@ -1137,8 +1139,9 @@
         packageValue.textContent = data.packageCode || 'Sin paquete';
         securityValue.textContent = data.securityCode || 'No disponible';
         messageValue.textContent = data.lastMessage || data.message || 'Sin mensajes';
+        currentAllowedActions = Array.isArray(data.allowedActions) ? data.allowedActions : ['getStatus'];
         updateFlowState(stateText);
-        updateActionAvailability(stateText);
+        updateActionAvailability(currentAllowedActions);
     }
 
     function resolveStateTone(stateText) {
@@ -1160,33 +1163,27 @@
         });
     }
 
-    function updateActionAvailability(stateText) {
-        const enabledButtons = {
-            'Disponible': [reserveButton, statusButton, startMaintenanceButton],
-            'Reservado': [storeButton, statusButton],
-            'Paquete almacenado': [readyButton, statusButton],
-            'Listo para recoger': [pickupButton, overdueButton, statusButton],
-            'Vencido': [startMaintenanceButton, statusButton],
-            'Mantenimiento': [finishMaintenanceButton, statusButton]
+    function updateActionAvailability(allowedActions) {
+        const buttonMap = {
+            reserve: reserveButton,
+            storePackage: storeButton,
+            pickupPackage: pickupButton,
+            getStatus: statusButton,
+            markReadyForPickup: readyButton,
+            markAsOverdue: overdueButton,
+            startMaintenance: startMaintenanceButton,
+            finishMaintenance: finishMaintenanceButton
         };
 
-        const allButtons = [
-            reserveButton,
-            storeButton,
-            pickupButton,
-            statusButton,
-            readyButton,
-            overdueButton,
-            startMaintenanceButton,
-            finishMaintenanceButton
-        ];
-
-        allButtons.forEach((button) => {
+        Object.values(buttonMap).forEach((button) => {
             button.disabled = true;
         });
 
-        (enabledButtons[stateText] || [statusButton]).forEach((button) => {
-            button.disabled = false;
+        allowedActions.forEach((actionName) => {
+            const button = buttonMap[actionName];
+            if (button) {
+                button.disabled = false;
+            }
         });
     }
 
@@ -1198,7 +1195,8 @@
             studentName: studentValue.textContent === 'Sin asignar' ? null : studentValue.textContent,
             packageCode: packageValue.textContent === 'Sin paquete' ? null : packageValue.textContent,
             securityCode: securityValue.textContent === 'No disponible' ? null : securityValue.textContent,
-            lastMessage: message
+            lastMessage: message,
+            allowedActions: currentAllowedActions
         };
         updateStatusCard(localData);
         addHistoryEntry(localData);

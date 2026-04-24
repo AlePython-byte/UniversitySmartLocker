@@ -1,7 +1,9 @@
 package edu.university.locker.context;
 
+import edu.university.locker.model.LockerStatusSnapshot;
 import edu.university.locker.model.OperationResult;
 import edu.university.locker.model.PackageInfo;
+import edu.university.locker.model.StateTransitionRecord;
 import edu.university.locker.service.LockerAuditLogger;
 import edu.university.locker.service.SecurityCodeGenerator;
 import edu.university.locker.state.AvailableState;
@@ -41,8 +43,9 @@ public class SmartLocker {
         this.overdueState = new OverdueState();
         this.maintenanceState = new MaintenanceState();
         this.currentState = availableState;
-        this.lastMessage = "El casillero está disponible y listo para usarse.";
+        this.lastMessage = "El casillero esta disponible y listo para usarse.";
         this.auditLogger.log("Sistema iniciado. Estado actual: Disponible.");
+        this.auditLogger.logTransition("Sin estado", availableState.getDisplayName(), "systemStart", this.lastMessage);
     }
 
     public synchronized OperationResult reserve(String studentName) {
@@ -54,7 +57,7 @@ public class SmartLocker {
 
     public synchronized OperationResult storePackage(String packageCode) {
         if (isBlank(packageCode)) {
-            return rejectValidation("El código del paquete es obligatorio.");
+            return rejectValidation("El codigo del paquete es obligatorio.");
         }
         return completeAction("Guardar paquete", currentState.storePackage(this, packageCode.trim()));
     }
@@ -65,7 +68,7 @@ public class SmartLocker {
 
     public synchronized OperationResult pickupPackage(String securityCode) {
         if (isBlank(securityCode)) {
-            return rejectValidation("El código de seguridad es obligatorio.");
+            return rejectValidation("El codigo de seguridad es obligatorio.");
         }
         return completeAction("Recoger paquete", currentState.pickupPackage(this, securityCode.trim()));
     }
@@ -84,6 +87,18 @@ public class SmartLocker {
 
     public synchronized OperationResult getStatus() {
         return currentState.getStatus(this);
+    }
+
+    public synchronized LockerStatusSnapshot getStatusSnapshot() {
+        return new LockerStatusSnapshot(
+                getStateDisplayName(),
+                getStudentName(),
+                getPackageCode(),
+                getSecurityCode(),
+                getLastMessage(),
+                getAllowedActions(),
+                getLastTransition()
+        );
     }
 
     public synchronized LockerState getAvailableState() {
@@ -110,8 +125,10 @@ public class SmartLocker {
         return maintenanceState;
     }
 
-    public synchronized void transitionTo(LockerState nextState) {
+    public synchronized void transitionTo(LockerState nextState, String actionName, String message) {
+        String fromState = currentState.getDisplayName();
         this.currentState = nextState;
+        auditLogger.logTransition(fromState, nextState.getDisplayName(), actionName, message);
     }
 
     public synchronized void assignReservation(String studentName, String securityCode) {
@@ -166,9 +183,17 @@ public class SmartLocker {
         return auditLogger.getEntries();
     }
 
+    public synchronized List<String> getAllowedActions() {
+        return currentState.getAllowedActions();
+    }
+
+    public synchronized StateTransitionRecord getLastTransition() {
+        return auditLogger.getLastTransition();
+    }
+
     private OperationResult rejectValidation(String message) {
         this.lastMessage = message;
-        auditLogger.log("Validación rechazada. " + message + " Estado actual: " + currentState.getDisplayName() + ".");
+        auditLogger.log("Validacion rechazada. " + message + " Estado actual: " + currentState.getDisplayName() + ".");
         return OperationResult.failure(message);
     }
 
